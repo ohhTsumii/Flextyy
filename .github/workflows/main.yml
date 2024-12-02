@@ -57,15 +57,15 @@ jobs:
 
       # 7. Deploy to SFTP server
       - name: Deploy to SFTP server
-        uses: appleboy/ssh-action@v0.1.0
+        uses: appleboy/scp-action@v0.1.0
         with:
           host: ssh.strato.com
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           port: 22
-          sync: true  # Enable synchronization (this will sync files)
+          source: ./  # Local directory
+          target: /flexty/public/  # Remote directory
+          sync: true  # Enables synchronization
           timeout: 30s
           command_timeout: 10m
-          key_path: ${{ secrets.SFTP_PRIVATE_KEY }}  # Optional SSH key, if you prefer SSH keys over password
           debug: true
-          args: '-r ./ /flexty/public/'  # Specify local directory to sync and target directory on remote server
