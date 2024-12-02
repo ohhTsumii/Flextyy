@@ -63,9 +63,9 @@ jobs:
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           port: 22
-          sync: true  # This will synchronize files between local and remote
+          sync: true  # Enable synchronization (this will sync files)
           timeout: 30s
           command_timeout: 10m
-          source: './'  # Path to the local files
-          target: '/flexty/public/'  # Path to the remote directory
+          key_path: ${{ secrets.SFTP_PRIVATE_KEY }}  # Optional SSH key, if you prefer SSH keys over password
           debug: true
+          args: '-r ./ /flexty/public/'  # Specify local directory to sync and target directory on remote server
