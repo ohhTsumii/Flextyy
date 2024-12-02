@@ -55,7 +55,18 @@ jobs:
         with:
           node-version: '18'
 
-      # 7. Deploy to SFTP server using SCP
+      # 7. Create target directory on the server (if needed)
+      - name: Create target directory if not exists
+        uses: appleboy/ssh-action@v0.1.0
+        with:
+          host: ssh.strato.com
+          username: 570388511.swh.strato-hosting.eu
+          password: Windiesoft#1964
+          port: 22
+          script: |
+            mkdir -p /flexty/public/
+
+      # 8. Deploy to SFTP server using SCP
       - name: Deploy to SFTP server
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -68,3 +79,5 @@ jobs:
           rm: false  # Do not remove files on remote server
           overwrite: true  # Allow overwriting of existing files
           debug: true  # Enable debugging to help diagnose issues
+          timeout: 60m  # Timeout setting (increase if necessary)
+          command_timeout: 30m  # Timeout for the SCP command
