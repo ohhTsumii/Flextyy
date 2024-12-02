@@ -37,39 +37,31 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, bcmath, pdo, pdo_mysql, dom, curl, libxml, zip, pcntl, soap, intl, gd, exif, iconv
 
-      # 6. Install NPM dependencies
+      # 3. Install NPM dependencies
       - name: Install NPM dependencies
         run: npm install
 
-      # 7. Build frontend assets
+      # 4. Build frontend assets
       - name: Build assets
         run: npm run build
 
-      # 3. Install Composer dependencies
+      # 5. Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --optimize-autoloader --no-dev
 
-      # 5. Set up Node.js environment
+      # 6. Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 10. Deploy to FTP server using SFTP over port 22
-      - name: Deploy to FTP server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # 7. Deploy via SFTP
+      - name: Deploy to SFTP server
+        uses: appleboy/ssh-action@v0.1.0
         with:
-          server: ssh.strato.com
+          host: ssh.strato.com
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
-          local-dir: ./  # This should include all files in your project
-          server-dir: /flexty/public/
-          exclude: |
-            .git*
-            node_modules/**
-            storage/debugbar/**
-            tests/**
-            vendor/**
-            *.md
-          port: 22  # Add port 22 for SFTP connection
-          timeout: 120
+          port: 22
+          source: "./"  # Path to the files you want to upload
+          target: "/flexty/public/"  # Path on the remote server
