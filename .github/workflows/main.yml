@@ -63,8 +63,6 @@ jobs:
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           port: 22
-          script: |
-            mkdir -p /flexty/public/
 
       # 8. Deploy to SFTP server using SCP
       - name: Deploy to SFTP server
