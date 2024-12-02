@@ -72,3 +72,4 @@ jobs:
             vendor/**
             *.md
           port: 22  # Add port 22 for SFTP connection
+          timeout: 120
