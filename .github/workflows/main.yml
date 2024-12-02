@@ -55,7 +55,7 @@ jobs:
         with:
           node-version: '18'
 
-      # 7. Deploy to SFTP server
+      # 7. Deploy to SFTP server using SCP
       - name: Deploy to SFTP server
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -63,9 +63,8 @@ jobs:
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           port: 22
-          source: ./  # Local directory
-          target: /flexty/public/  # Remote directory
-          sync: true  # Enables synchronization
-          timeout: 30s
-          command_timeout: 10m
-          debug: true
+          source: ./  # Local directory to transfer
+          target: /flexty/public/  # Remote directory to receive files
+          rm: false  # Do not remove files on remote server
+          overwrite: true  # Allow overwriting of existing files
+          debug: true  # Enable debugging to help diagnose issues
