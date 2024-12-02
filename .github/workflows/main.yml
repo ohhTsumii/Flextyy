@@ -15,9 +15,6 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
         ports:
           - 3306:3306
         options: >-
@@ -90,7 +87,7 @@ jobs:
       - name: Deploy to FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: sftp://ssh.strato.com
+          server: ssh.strato.com
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           local-dir: ./ # This should include all files in your project
