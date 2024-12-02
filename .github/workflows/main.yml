@@ -55,7 +55,7 @@ jobs:
         with:
           node-version: '18'
 
-      # 7. Deploy via SFTP
+      # 7. Deploy to SFTP server
       - name: Deploy to SFTP server
         uses: appleboy/ssh-action@v0.1.0
         with:
@@ -63,5 +63,9 @@ jobs:
           username: 570388511.swh.strato-hosting.eu
           password: Windiesoft#1964
           port: 22
-          source: "./"  # Path to the files you want to upload
-          target: "/flexty/public/"  # Path on the remote server
+          sync: true  # This will synchronize files between local and remote
+          timeout: 30s
+          command_timeout: 10m
+          source: './'  # Path to the local files
+          target: '/flexty/public/'  # Path to the remote directory
+          debug: true
