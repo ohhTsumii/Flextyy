@@ -176,7 +176,7 @@
                             <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Submit
                             </primary-button>
                         </div>
-                        <Toast ref="toast"/>
+                        <Toast />
                     </form>
                 </div>
             </div>

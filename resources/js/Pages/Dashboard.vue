@@ -215,8 +215,8 @@ const statusSeverity = (data) => {
                             </template>
                         </Column>
                         <Column field="inspector" header="Inspector"></Column>
-                        <Column field="recycleplant" header="Recycle Plant"></Column>
-                        <Column field="glassfactory" header="Glass Factory"></Column>
+                        <Column field="recycle_plant_company" header="Recycle Plant"></Column>
+                        <Column field="glass_factory_company" header="Glass Factory"></Column>
                         <Column field="country" header="Country"></Column>
                         <Column field="testtype" header="Test type"></Column>
                         <Column field="cullettype" header="Cullet type"></Column>
@@ -281,7 +281,6 @@ const statusSeverity = (data) => {
                             <div class="pt-2 pb-2">
                                 <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Save edit</primary-button>
                             </div>
-                            <Toast ref="toast" />
                         </form>
 <!--                        <template #footer>-->
 <!--                            <Button label="Cancel" text severity="secondary" @click="visible = false" autofocus />-->

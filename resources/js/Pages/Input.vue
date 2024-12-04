@@ -19,9 +19,15 @@
                             <input-label>Week Number</input-label>
                             <TextInput v-model="formData.weekNumber" type="number"></TextInput>
                         </div>
-                        <div class="pt-2 pb-2">
+                        <div class="pt-2 pb-2 ">
                             <input-label>Recycle Plant</input-label>
-                            <TextInput v-model="formData.recyclePlant"></TextInput>
+<!--                            <TextInput v-model="formData.recyclePlant"></TextInput>-->
+<!--                            <select class="w-20" v-model="formData.recyclePlant">-->
+<!--                                <option v-for="plant in RecyclePlants" :key="plant.id" :value="plant.id">-->
+<!--                                    {{ plant.company }} - {{ plant.city }}-->
+<!--                                </option>-->
+<!--                            </select>-->
+                            <Select v-model="formData.recyclePlant" :options="RecyclePlants" optionLabel="fullLabel" optionValue="id" placeholder="Select a City" class="w-full md:w-56" />
                         </div>
                         <div class="pt-2 pb-2">
                             <input-label>Inspector</input-label>
@@ -33,7 +39,7 @@
                         </div>
                         <div class="pt-2 pb-2">
                             <input-label>Glass Factory</input-label>
-                            <TextInput v-model="formData.glassFactory"></TextInput>
+                            <Select v-model="formData.glassFactory" :options="GlassFactories" optionLabel="fullLabel" optionValue="id" placeholder="Select a City" class="w-full md:w-56" />
                         </div>
                         <div class="pt-2 pb-2">
                             <input-label>Test Type</input-label>
@@ -55,7 +61,7 @@
                         <div class="pt-2 pb-2">
                             <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Submit</primary-button>
                         </div>
-                        <Toast ref="toast" />
+                        <Toast />
                     </form>
                 </div>
             </div>
@@ -69,11 +75,51 @@ import TextInput from '@/Components/TextInput.vue';
 import SectionTitle from "@/Components/SectionTitle.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from 'axios';
-import { useToast } from 'primevue/usetoast';
+import {useToast} from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+import Select from 'primevue/select';
 
+const RecyclePlants = ref([]);
+const GlassFactories = ref([]);
+
+const getGlassFactories = async () => {
+    try {
+        const response = await axios.get('/glass-factories'); // Make the GET request
+        console.log(response.data);
+        GlassFactories.value = response.data.map(Glassfactory => ({
+            ...Glassfactory,
+            fullLabel: `${Glassfactory.company} - ${Glassfactory.country}` // Combine company and country
+        }));
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+    }
+};
+
+const getRecyclePlants = async () => {
+    try {
+        const response = await axios.get('/recycle-plants'); // Make the GET request
+        console.log(response.data);
+
+        // Assuming response.data is an array of objects
+        // Add a new property 'fullLabel' that combines 'company' and 'country'
+        // Assign the enhanced data with fullLabel to RecyclePlants
+        RecyclePlants.value = response.data.map(plant => ({
+            ...plant,
+            fullLabel: `${plant.company} - ${plant.country}` // Combine company and country
+        }));
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+    }
+};
+
+
+onMounted(() => {
+    getGlassFactories();
+    getRecyclePlants();
+});
+console.log(GlassFactories)
 // Reactive state for form data
 const formData = ref({
     weekNumber: '',
@@ -142,6 +188,10 @@ const submitForm = async () => {
 
 </script>
 
-<style>
-/* Optional: Add any custom styles here */
+<style scoped>
+select {
+    width: 250px; /* Set a specific width */
+    overflow-y: auto; /* Allow scrolling if there are too many options */
+}
 </style>
+

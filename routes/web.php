@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 
 // get inspections
 Route::get('/api/dashboard', [\App\Http\Controllers\DashboardController::class, 'getInspections']);
+Route::get('/glass-factories', [\App\Http\Controllers\DashboardController::class, 'getAllGlassFactory']);
+Route::get('/recycle-plants', [\App\Http\Controllers\DashboardController::class, 'getAllRecyclePlant']);
 
 // add inspections
 Route::post('/initialinspection', [\App\Http\Controllers\InspectionController::class, 'store']);
