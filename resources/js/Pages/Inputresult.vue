@@ -205,69 +205,88 @@ const oi_Plant = ref("Alloa")
 
 // Reactive state for form data
 const formData = ref({
-    weekNumber: '',
-    recyclePlant: '',
-    inspector: '',
-    country: '',
-    glassFactory: '',
-    testType: '',
-    culletType: '',
-    quantity: '',
+    // General Information
+    dateTest: "",
+    typeTest: "",
+    plantSupplier: "",
+    lotSize: "",
+
+    // Sample Size
+    contamination: "",
+    humidity: "",
+    // Inorganic Contamination
+    ceramics_pc: 0,
+    stones_pc: 0,
+    porcelain_pc: 0,
+    ceramic_gr: 0,
+    stones_gr: 0,
+    porcelain_gr: 0,
+    opalGlass: 0,
+    // Metal Contamination
+    magnetic: "",
+    nonMagnetic: "",
+    // Moisture and Organic Contamination
+    organicMatter: "",
+    plasticSeperate: "",
+    // General Quality Requirements
+    pyroGlass_gr: "",
+    pyroGlass_pc: "",
+    // Granulometry / Sizing
+    largerThan70mm: "",
+    largerThan10mm: "",
+    between5mmAnd10mm: "",
+    smallerThan5mm: "",
+    // Color Specification
+    flint: 0,
+    green: 0,
+    amber: 0,
+    deadLeaf: 0,
+    blue: 0
 });
-// const responseMessage = ref('');
 
-// Use toast
-// const toast = useToast();
+const responseMessage = ref('');
 
-// const submitForm = async () => {
-//     console.log('Form submitted:', formData.value);
-//     try {
-//         // Send a POST request to the Laravel backend
-//         const response = await axios.post('/initialinspection', formData.value, {
-//             headers: {
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Include CSRF token
-//             },
-//         });
-//         Object.assign(formData.value,{
-//             weekNumber: '',
-//             recyclePlant: '',
-//             inspector: '',
-//             country: '',
-//             glassFactory: '',
-//             testType: '',
-//             culletType: '',
-//             quantity: '',
-//         });
-//         // Resets formData to initial values
-//         // Show success toast message
-//         toast.add({
-//             severity: 'success',
-//             summary: 'Success',
-//             detail: "Inspection added succesfully",
-//             life: 3000, // The toast will disappear after 3 seconds
-//         });
-//
-//         // Handle the response
-//         responseMessage.value = response.data.message;
-//
-//     } catch (error) {
-//         // Handle any errors
-//         let errorMessage = 'Error: Something went wrong';
-//         if (error.response && error.response.data && error.response.data.message) {
-//             errorMessage = 'Error: ' + error.response.data.message;
-//         }
-//
-//         // Show error toast message
-//         toast.add({
-//             severity: 'error',
-//             summary: 'Error',
-//             detail: errorMessage,
-//             life: 3000, // The toast will disappear after 3 seconds
-//         });
-//
-//         responseMessage.value = errorMessage;
-//     }
-// };
+const toast = useToast();
+
+const submitForm = async () => {
+    console.log('Form submitted:', formData.value);
+    try {
+        // Send a POST request to the Laravel backend
+        const response = await axios.post('/exceltest', formData.value, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Include CSRF token
+            },
+        });
+
+        // Show success toast message
+        toast.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: "Inspection added succesfully",
+            life: 3000, // The toast will disappear after 3 seconds
+        });
+
+        // Handle the response
+        responseMessage.value = response.data.message;
+
+    } catch (error) {
+        // Handle any errors
+        let errorMessage = 'Error: Something went wrong';
+        if (error.response && error.response.data && error.response.data.message) {
+            errorMessage = 'Error: ' + error.response.data.message;
+        }
+
+        // Show error toast message
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: errorMessage,
+            life: 3000, // The toast will disappear after 3 seconds
+        });
+
+        responseMessage.value = errorMessage;
+    }
+};
 
 </script>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteInspectionRequest;
 use App\Http\Requests\InitialInspectionRequest;
+use App\Http\Requests\InspectionResultsRequest;
 use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,4 +66,20 @@ class InspectionController extends Controller
             'message' => 'Post successfully created!'
         ]);
     }
+    public function excelTest(InspectionResultsRequest $request): \Illuminate\Http\JsonResponse
+    {
+        // The request is already validated at this point
+        // Access the validated data like this
+        $validatedData = $request->validated();
+
+        // Handle the validated data (e.g., save to database)
+
+        // For demonstration, return a JSON response with the validated data
+        return response()->json([
+            'success' => true,
+            'data' => $validatedData,
+            'message' => 'Post successfully created!'
+        ]);
+    }
+
 }

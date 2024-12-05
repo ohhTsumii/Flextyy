@@ -15,6 +15,7 @@ Route::get('/recycle-plants', [\App\Http\Controllers\DashboardController::class,
 Route::post('/initialinspection', [\App\Http\Controllers\InspectionController::class, 'store']);
 Route::post('/editinspection', [\App\Http\Controllers\InspectionController::class, 'update']);
 Route::post('/deleteinspection', [\App\Http\Controllers\InspectionController::class, 'delete']);
+Route::post('/exceltest', [\App\Http\Controllers\InspectionController::class, 'excelTest']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
