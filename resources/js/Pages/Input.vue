@@ -17,7 +17,7 @@
                         <h1 class="text-xl font-medium text-gray-900">Inspection:</h1>
                         <div class="pt-2 pb-2">
                             <input-label>Week Number</input-label>
-                            <TextInput v-model="formData.weekNumber" type="number"></TextInput>
+                            <TextInput v-model="formData.date" type="date"></TextInput>
                         </div>
                         <div class="pt-2 pb-2 ">
                             <input-label>Recycle Plant</input-label>
@@ -83,7 +83,9 @@ import Select from 'primevue/select';
 
 const RecyclePlants = ref([]);
 const GlassFactories = ref([]);
-
+// Reactive variables
+const inputDate = ref(''); // Input field binding
+const weekNumber = ref(null); // Week number to show after calculation
 const getGlassFactories = async () => {
     try {
         const response = await axios.get('/glass-factories'); // Make the GET request
@@ -96,7 +98,6 @@ const getGlassFactories = async () => {
         console.error('Error fetching dashboard data:', error);
     }
 };
-
 const getRecyclePlants = async () => {
     try {
         const response = await axios.get('/recycle-plants'); // Make the GET request
@@ -122,7 +123,7 @@ onMounted(() => {
 console.log(GlassFactories)
 // Reactive state for form data
 const formData = ref({
-    weekNumber: '',
+    date: '',
     recyclePlant: '',
     inspector: '',
     country: '',
@@ -130,14 +131,28 @@ const formData = ref({
     testType: '',
     culletType: '',
     quantity: '',
+    weekNumber: '',
 });
 const responseMessage = ref('');
 
 // Use toast
 const toast = useToast();
 
+// Parse the entered date string and compute the week number
+// Function to calculate the week number
+function getWeekNumber(date) {
+    const targetDate = new Date(date);
+    const startOfYear = new Date(targetDate.getFullYear(), 0, 1);
+
+    const daysDifference = Math.floor((targetDate - startOfYear) / (24 * 60 * 60 * 1000));
+    const weekNum = Math.ceil((daysDifference + 3) / 7);
+
+    return weekNum;
+}
 const submitForm = async () => {
-    console.log('Form submitted:', formData.value);
+    // console.log('Form submitted:', formData.value);
+    // console.log(getWeekNumber(formData.value.date))
+    formData.value.weekNumber = getWeekNumber(formData.value.date);
     try {
         // Send a POST request to the Laravel backend
         const response = await axios.post('/initialinspection', formData.value, {
@@ -146,7 +161,7 @@ const submitForm = async () => {
             },
         });
         Object.assign(formData.value,{
-            weekNumber: '',
+            date: '',
             recyclePlant: '',
             inspector: '',
             country: '',

@@ -155,7 +155,7 @@ const submitForm = async () => {
 
 const fillRecord = (data) => {
     const query = new URLSearchParams(data).toString();
-    window.location.href = `/inputresult?${query}`;
+    window.location.href = `/inputresult?id=${query}`;
 };
 
 
@@ -208,6 +208,7 @@ const statusSeverity = (data) => {
                                 <Button @click="deleteRecord(slotProps.data.id)"><i class="pi pi-trash scale-50" style="font-size: 2rem" ></i></Button>
                             </template>
                         </Column>
+                        <Column field="date" header="Date"></Column>
                         <Column field="weeknumber" header="Week Number"></Column>
                         <Column field="status" header="status" >
                             <template #body="slotProps">
@@ -220,7 +221,7 @@ const statusSeverity = (data) => {
                         <Column field="country" header="Country"></Column>
                         <Column field="testtype" header="Test type"></Column>
                         <Column field="cullettype" header="Cullet type"></Column>
-<!--                        <Column field="quantity" header="Quantity"></Column>-->
+                        <Column field="quantity" header="Quantity"></Column>
 <!--                        <Column field="result" header="Result" >-->
 <!--                            <template #body="slotProps">-->
 <!--                                <Badge :value="slotProps.data.status" :severity="resultSeverity(slotProps.data)" />-->

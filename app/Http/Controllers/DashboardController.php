@@ -7,6 +7,7 @@ use App\Models\Inspection;
 use App\Models\RecyclePlant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
@@ -30,7 +31,6 @@ class DashboardController extends Controller
     }
 
 
-
     public function getAllGlassFactory(): \Illuminate\Http\JsonResponse
     {
         // Use the Inspection model to fetch all data
@@ -38,12 +38,30 @@ class DashboardController extends Controller
 
         return response()->json($data);
     }
+
     public function getAllRecyclePlant(): \Illuminate\Http\JsonResponse
     {
         // Use the Inspection model to fetch all data
         $data = RecyclePlant::all();  // Model is queried here
 
         return response()->json($data);
+
+    }
+
+    public function index(Request $request): \Inertia\Response
+    {
+        // Extract ID from the query string
+        $id = $request->query('id', null); // Fallback to `null` if not provided.
+
+        if ($id) {
+            $cleanedId = trim($id, '='); // Trim trailing '=' if it exists
+        } else {
+            $cleanedId = null;
+        }
+
+        return Inertia::render('Inputresult', [
+            'id' => $cleanedId // Pass the ID to your Vue front-end through props
+        ]);
     }
 
 }

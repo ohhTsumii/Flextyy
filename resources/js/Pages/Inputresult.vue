@@ -1,5 +1,5 @@
 <template>
-    <AppLayout title="input">
+    <AppLayout title="Inputresult">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -39,17 +39,17 @@
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">TRUCK / Lot size (tons)</input-label>
-                                <TextInput v-model="formData.lotSize" type="text"></TextInput>
+                                <TextInput v-model="formData.lotSize" type="number"></TextInput>
                             </div>
                             <Divider/>
                             <h1 class="text-xl font-medium text-gray-900 py-2 mt-6">Sample Size(kg):</h1>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Contamination</input-label>
-                                <TextInput v-model="formData.contamination" type="text"></TextInput>
+                                <TextInput v-model="formData.contamination" type="number"</TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Humidity %</input-label>
-                                <TextInput v-model="formData.humidity" type="text"></TextInput>
+                                <TextInput v-model="formData.humidity" type="number"></TextInput>
                             </div>
                             <Divider/>
 <!--                            <div class="pt-2 pb-2 flex flex-row items-center">-->
@@ -86,7 +86,7 @@
                             <div
                                 class="pt-2 pb-2 flex flex-row justify-between w-full items-center">
                                 <input-label class="w-[15%]">Opal Glass (gr.)</input-label>
-                                <TextInput class="" v-model="formData.opalGlass"></TextInput>
+                                <TextInput class="" v-model="formData.opalGlass" type="number"></TextInput>
                                 <div class="w-[49%]"></div> <!-- Minimal spacer -->
                             </div>
                         </div>
@@ -96,11 +96,11 @@
 
                             <div class="pt-2 pb-2 flex flex-row flex-row items-center">
                                 <input-label class="w-[30%]">Magnetic (ppm / gr/ton)</input-label>
-                                <TextInput class="ml-1" v-model="formData.magnetic"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.magnetic" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row flex-row items-center">
                                 <input-label class="w-[30%]">Non-magnetic (ppm / gr/ton)</input-label>
-                                <TextInput class="ml-1" v-model="formData.nonMagnetic"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.nonMagnetic" type="number"></TextInput>
                             </div>
                         </div>
                         <Divider/>
@@ -110,11 +110,11 @@
 
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Organic Matter (gr)</input-label>
-                                <TextInput class="ml-1" v-model="formData.organicMatter"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.organicMatter" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Plastics seperate</input-label>
-                                <TextInput class="ml-1" v-model="formData.plasticSeperate"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.plasticSeperate" type="number"></TextInput>
                             </div>
                         </div>
                         <Divider/>
@@ -123,11 +123,11 @@
 
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Pyro-Ceramic Glass (gr)</input-label>
-                                <TextInput class="ml-1" v-model="formData.pyroGlass_gr"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.pyroGlass_gr" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center ">
                                 <input-label class="w-[30%]">Pyro-Ceramic Glass (pieces)</input-label>
-                                <TextInput class="ml-1" v-model="formData.pyroGlass_pc"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.pyroGlass_pc" type="number"></TextInput>
                             </div>
                         </div>
                         <Divider/>
@@ -136,19 +136,19 @@
 
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Input in grams ( > 70mm)</input-label>
-                                <TextInput class="ml-1" v-model="formData.largerThan70mm"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.largerThan70mm" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Input in grams ( > 10mm)</input-label>
-                                <TextInput class="ml-1" v-model="formData.largerThan10mm"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.largerThan10mm" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Input in grams ( > 5mm -< 10mm)</input-label>
-                                <TextInput class="ml-1" v-model="formData.between5mmAnd10mm"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.between5mmAnd10mm" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Input in grams ( < 5mm)</input-label>
-                                <TextInput class="ml-1" v-model="formData.smallerThan5mm"></TextInput>
+                                <TextInput class="ml-1" v-model="formData.smallerThan5mm" type="number"></TextInput>
                             </div>
                         </div>
                         <Divider/>
@@ -190,7 +190,7 @@ import TextInput from '@/Components/TextInput.vue';
 import SectionTitle from "@/Components/SectionTitle.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from 'axios';
 import {useToast} from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -202,18 +202,26 @@ const supplier = ref("Sibelco")
 const cullettype = ref("green")
 const oi_Plant = ref("Alloa")
 
+// Define props correctly
+defineProps({
+    id: {
+        type: String,
+        default: null,
+    },
+});
 
 // Reactive state for form data
 const formData = ref({
+    id:"",
     // General Information
     dateTest: "",
     typeTest: "",
     plantSupplier: "",
-    lotSize: "",
+    lotSize: 0,
 
     // Sample Size
-    contamination: "",
-    humidity: "",
+    contamination: 0,
+    humidity: 0,
     // Inorganic Contamination
     ceramics_pc: 0,
     stones_pc: 0,
@@ -223,34 +231,36 @@ const formData = ref({
     porcelain_gr: 0,
     opalGlass: 0,
     // Metal Contamination
-    magnetic: "",
-    nonMagnetic: "",
+    magnetic: 0,
+    nonMagnetic: 0,
     // Moisture and Organic Contamination
-    organicMatter: "",
-    plasticSeperate: "",
+    organicMatter: 0,
+    plasticSeperate: 0,
     // General Quality Requirements
-    pyroGlass_gr: "",
-    pyroGlass_pc: "",
+    pyroGlass_gr: 0,
+    pyroGlass_pc: 0,
     // Granulometry / Sizing
-    largerThan70mm: "",
-    largerThan10mm: "",
-    between5mmAnd10mm: "",
-    smallerThan5mm: "",
+    largerThan70mm: 0,
+    largerThan10mm: 0,
+    between5mmAnd10mm: 0,
+    smallerThan5mm: 0,
     // Color Specification
     flint: 0,
     green: 0,
     amber: 0,
     deadLeaf: 0,
-    blue: 0
+    blue: 0,
 });
 
-const responseMessage = ref('');
 
+const responseMessage = ref('');
 const toast = useToast();
 
 const submitForm = async () => {
     console.log('Form submitted:', formData.value);
     try {
+        // window.location.href = '/exceltest';
+
         // Send a POST request to the Laravel backend
         const response = await axios.post('/exceltest', formData.value, {
             headers: {
@@ -287,6 +297,10 @@ const submitForm = async () => {
         responseMessage.value = errorMessage;
     }
 };
+</script>
+
+<script>
+// console.log(props.id)
 
 </script>
 

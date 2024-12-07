@@ -46,8 +46,5 @@ Route::middleware([
         return Inertia::render('Output');
     })->name('output');
 
-    Route::get('/inputresult', function () {
-        return Inertia::render('Inputresult');
-    })->name('inputresult');
-
+    Route::get('/inputresult', [DashboardController::class, 'index'])->name('inputresult');
 });

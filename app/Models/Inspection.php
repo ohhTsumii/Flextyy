@@ -16,7 +16,7 @@ class Inspection extends Model
     // Define the fillable properties for mass assignment
     protected $fillable = [
         'weeknumber', 'country', 'recycleplant', 'inspector',
-        'glassfactory', 'testtype', 'cullettype', 'quantity'
+        'glassfactory', 'testtype', 'cullettype', 'quantity','date'
     ];
 
     /**
@@ -31,6 +31,7 @@ class Inspection extends Model
     {
         // Using mass assignment
         return self::create([
+            'date' => $data['date'],
             'weeknumber' => $data['weekNumber'],
             'country' => $data['country'],
             'recycleplant' => $data['recyclePlant'],

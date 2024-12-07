@@ -22,7 +22,7 @@ class InitialInspectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'weekNumber' => 'required',
+            'date' => 'required|date',
             'country' => 'required',
             'recyclePlant' => 'required',
             'inspector' => 'required',
@@ -31,6 +31,7 @@ class InitialInspectionRequest extends FormRequest
             'culletType' => 'required',
             'quantity' => 'required',
             'id' => '',
+            'weekNumber' =>'required'
         ];
     }
 }
