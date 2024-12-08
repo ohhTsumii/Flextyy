@@ -7,27 +7,42 @@ use App\Models\Inspection;
 use App\Models\RecyclePlant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function getInspections(): \Illuminate\Http\JsonResponse
     {
-        // Use query builder to join the tables
-        $data = DB::table('inspections')
-            // Join table_a with inspections on table_a_id
+        // Fetch inspections with status 'open'
+        $openInspections = DB::table('inspections')
             ->join('glass_factories', 'inspections.glassfactory', '=', 'glass_factories.id')
-            // Join table_b with inspections on table_b_id
             ->join('recycle_plants', 'inspections.recycleplant', '=', 'recycle_plants.id')
-            // Select the columns you want, including columns from both table_a and table_b
+            ->where('inspections.status', '=', 'open')
             ->select(
                 'inspections.*',
-                'glass_factories.company as glass_factory_company', // Alias for company from glass_factories
-                'recycle_plants.company as recycle_plant_company' // Alias for company from recycle_plants
+                'glass_factories.company as glass_factory_company',
+                'recycle_plants.company as recycle_plant_company'
             )
             ->get();
 
-        return response()->json($data);
+        // Fetch inspections with status 'closed'
+        $closedInspections = DB::table('inspections')
+            ->join('glass_factories', 'inspections.glassfactory', '=', 'glass_factories.id')
+            ->join('recycle_plants', 'inspections.recycleplant', '=', 'recycle_plants.id')
+            ->where('inspections.status', '=', 'closed')
+            ->select(
+                'inspections.*',
+                'glass_factories.company as glass_factory_company',
+                'recycle_plants.company as recycle_plant_company'
+            )
+            ->get();
+
+        // Return both datasets in a JSON response
+        return response()->json([
+            'openInspections' => $openInspections,
+            'closedInspections' => $closedInspections,
+        ]);
     }
 
 
@@ -48,20 +63,35 @@ class DashboardController extends Controller
 
     }
 
-    public function index(Request $request): \Inertia\Response
+    public function getAllTestType(): \Illuminate\Http\JsonResponse
     {
-        // Extract ID from the query string
-        $id = $request->query('id', null); // Fallback to `null` if not provided.
+        // Use the Inspection model to fetch all data
+        $data = Testtype::all();  // Model is queried here
+
+        return response()->json($data);
+
+    }
+
+    public function index(Request $request): \Illuminate\Http\JsonResponse
+    {
+        // Extract full URL sent from the frontend
+        $fullUrl = $request->input('url', '');
+
+        // Parse the URL to extract the query string parameters
+        $parsedUrl = parse_url($fullUrl);
+        $queryString = $parsedUrl['query'] ?? '';
+
+        // Extract 'id' from the query string
+        parse_str($queryString, $queryParams);
+        $id = $queryParams['id'] ?? null;
 
         if ($id) {
-            $cleanedId = trim($id, '='); // Trim trailing '=' if it exists
+            $cleanedid = trim($id, '='); // Trim trailing '=' if it exists
         } else {
-            $cleanedId = null;
+            $cleanedid = null;
         }
 
-        return Inertia::render('Inputresult', [
-            'id' => $cleanedId // Pass the ID to your Vue front-end through props
-        ]);
-    }
+        return response()->json(['id' => $cleanedid]);
+        }
 
 }

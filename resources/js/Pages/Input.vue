@@ -89,7 +89,7 @@ const weekNumber = ref(null); // Week number to show after calculation
 const getGlassFactories = async () => {
     try {
         const response = await axios.get('/glass-factories'); // Make the GET request
-        console.log(response.data);
+        // console.log(response.data);
         GlassFactories.value = response.data.map(Glassfactory => ({
             ...Glassfactory,
             fullLabel: `${Glassfactory.company} - ${Glassfactory.country}` // Combine company and country
@@ -101,7 +101,7 @@ const getGlassFactories = async () => {
 const getRecyclePlants = async () => {
     try {
         const response = await axios.get('/recycle-plants'); // Make the GET request
-        console.log(response.data);
+        // console.log(response.data);
 
         // Assuming response.data is an array of objects
         // Add a new property 'fullLabel' that combines 'company' and 'country'
@@ -120,7 +120,6 @@ onMounted(() => {
     getGlassFactories();
     getRecyclePlants();
 });
-console.log(GlassFactories)
 // Reactive state for form data
 const formData = ref({
     date: '',

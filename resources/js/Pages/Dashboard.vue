@@ -36,11 +36,11 @@ let formDataEdit = ref({
     testtype: '',
     cullettype: '',
     quantity: '',
-    id:'',
+    id: '',
 });
 
 // Destructure the user from auth prop
-const { user } = props.auth;
+const {user} = props.auth;
 let visible = ref(false);
 const dashboardData = ref(null); // Reactive variable for dashboard data
 
@@ -49,7 +49,7 @@ const count = ref(0)
 const fetchDashboardData = async () => {
     try {
         const response = await axios.get('/api/dashboard'); // Make the GET request
-        console.log(response.data);
+        // console.log(response.data);
         dashboardData.value = response.data; // Assign the response data
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -188,7 +188,8 @@ const statusSeverity = (data) => {
 
                         <!-- Filling the "description" slot -->
                         <template #description>
-                            Get ready for your upcoming inspections! Below, you’ll find the schedule. Each inspection is an opportunity for you to showcase your skills and commitment to excellence.
+                            Get ready for your upcoming inspections! Below, you’ll find the schedule. Each inspection is
+                            an opportunity for you to showcase your skills and commitment to excellence.
                         </template>
 
                         <!-- Filling the "aside" slot -->
@@ -198,45 +199,55 @@ const statusSeverity = (data) => {
                         <!--                            </button>-->
                         <!--                        </template>-->
                     </section-title>
-                    <DataTable :value="dashboardData" tableStyle="min-width: 50rem">
-                        <Column header="Actions" >
-                            <template #body="slotProps">
-                                <Toast />
-                                <ConfirmPopup></ConfirmPopup>
-                                <Button @click="editRecord(slotProps.data);visible = true" ><i class="pi pi-pencil scale-50" style="font-size: 2rem" ></i></Button>
-<!--                                <Button><i class="pi pi-trash" style="font-size: 2rem" ></i></Button>-->
-                                <Button @click="deleteRecord(slotProps.data.id)"><i class="pi pi-trash scale-50" style="font-size: 2rem" ></i></Button>
-                            </template>
-                        </Column>
-                        <Column field="date" header="Date"></Column>
-                        <Column field="weeknumber" header="Week Number"></Column>
-                        <Column field="status" header="status" >
-                            <template #body="slotProps">
-                                <Badge :value="slotProps.data.status" :severity="statusSeverity(slotProps.data.status)" />
-                            </template>
-                        </Column>
-                        <Column field="inspector" header="Inspector"></Column>
-                        <Column field="recycle_plant_company" header="Recycle Plant"></Column>
-                        <Column field="glass_factory_company" header="Glass Factory"></Column>
-                        <Column field="country" header="Country"></Column>
-                        <Column field="testtype" header="Test type"></Column>
-                        <Column field="cullettype" header="Cullet type"></Column>
-                        <Column field="quantity" header="Quantity"></Column>
-<!--                        <Column field="result" header="Result" >-->
-<!--                            <template #body="slotProps">-->
-<!--                                <Badge :value="slotProps.data.status" :severity="resultSeverity(slotProps.data)" />-->
-<!--                            </template>-->
-<!--                        </Column>-->
-                        <Column header="Results" >
-                            <template #body="slotProps">
-                                <secondary-button severity="success" @click="fillRecord(slotProps.data.id)">Fill</secondary-button>
-                            </template>
-                        </Column>
-                    </DataTable>
+                    <template v-if="dashboardData">
+                        <DataTable :value="dashboardData['openInspections']" tableStyle="min-width: 50rem">
+                            <Column header="Actions">
+                                <template #body="slotProps">
+                                    <Toast/>
+                                    <ConfirmPopup></ConfirmPopup>
+                                    <Button @click="editRecord(slotProps.data);visible = true"><i
+                                        class="pi pi-pencil scale-50" style="font-size: 2rem"></i></Button>
+                                    <!--                                <Button><i class="pi pi-trash" style="font-size: 2rem" ></i></Button>-->
+                                    <Button @click="deleteRecord(slotProps.data.id)"><i class="pi pi-trash scale-50"
+                                                                                        style="font-size: 2rem"></i>
+                                    </Button>
+                                </template>
+                            </Column>
+                            <Column field="date" header="Date"></Column>
+                            <Column field="weeknumber" header="Week Number"></Column>
+                            <Column field="status" header="status">
+                                <template #body="slotProps">
+                                    <Badge :value="slotProps.data.status"
+                                           :severity="statusSeverity(slotProps.data.status)"/>
+                                </template>
+                            </Column>
+                            <Column field="inspector" header="Inspector"></Column>
+                            <Column field="recycle_plant_company" header="Recycle Plant"></Column>
+                            <Column field="glass_factory_company" header="Glass Factory"></Column>
+                            <Column field="country" header="Country"></Column>
+                            <Column field="testtype" header="Test type"></Column>
+                            <Column field="cullettype" header="Cullet type"></Column>
+                            <Column field="quantity" header="Quantity"></Column>
+                            <!--                        <Column field="result" header="Result" >-->
+                            <!--                            <template #body="slotProps">-->
+                            <!--                                <Badge :value="slotProps.data.status" :severity="resultSeverity(slotProps.data)" />-->
+                            <!--                            </template>-->
+                            <!--                        </Column>-->
+                            <Column header="Results">
+                                <template #body="slotProps">
+                                    <secondary-button severity="success" @click="fillRecord(slotProps.data.id)">Fill
+                                    </secondary-button>
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </template>
+                    <template v-else>
+                        <p>Loading inspections...</p>
+                    </template>
                     <Dialog v-model:visible="visible" modal header="Edit Profile" :style="{ width: '25rem' }">
                         <template #header>
                             <div class="inline-flex items-center justify-center gap-2">
-<!--                                <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />-->
+                                <!--                                <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />-->
                                 <span class="font-bold whitespace-nowrap">Edit Inspection</span>
                             </div>
                         </template>
@@ -280,14 +291,75 @@ const statusSeverity = (data) => {
                                 <TextInput type="number" v-model="formDataEdit.quantity"></TextInput>
                             </div>
                             <div class="pt-2 pb-2">
-                                <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Save edit</primary-button>
+                                <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Save edit
+                                </primary-button>
                             </div>
                         </form>
-<!--                        <template #footer>-->
-<!--                            <Button label="Cancel" text severity="secondary" @click="visible = false" autofocus />-->
-<!--                            <Button label="Save" outlined severity="secondary" @click="visible = false" autofocus />-->
-<!--                        </template>-->
+                        <!--                        <template #footer>-->
+                        <!--                            <Button label="Cancel" text severity="secondary" @click="visible = false" autofocus />-->
+                        <!--                            <Button label="Save" outlined severity="secondary" @click="visible = false" autofocus />-->
+                        <!--                        </template>-->
                     </Dialog>
+                </div>
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-10 p-6">
+                    <section-title class="pb-4">
+                        <template #title>
+                            History
+                        </template>
+
+                        <!-- Filling the "description" slot -->
+                        <template #description>
+                            All filled closed inspections will show below
+                        </template>
+
+                        <!-- Filling the "aside" slot -->
+                        <!--                        <template #aside>-->
+                        <!--                            <button class="bg-blue-500 text-white px-4 py-2 rounded">-->
+                        <!--                                Click Me-->
+                        <!--                            </button>-->
+                        <!--                        </template>-->
+                    </section-title>
+                    <template v-if="dashboardData">
+                        <DataTable :value="dashboardData['closedInspections']" tableStyle="min-width: 50rem">
+                            <!--                            <Column header="Actions" >-->
+                            <!--                                <template #body="slotProps">-->
+                            <!--                                    <Toast />-->
+                            <!--                                    <ConfirmPopup></ConfirmPopup>-->
+                            <!--                                    <Button @click="editRecord(slotProps.data);visible = true" ><i class="pi pi-pencil scale-50" style="font-size: 2rem" ></i></Button>-->
+                            <!--                                    &lt;!&ndash;                                <Button><i class="pi pi-trash" style="font-size: 2rem" ></i></Button>&ndash;&gt;-->
+                            <!--                                    <Button @click="deleteRecord(slotProps.data.id)"><i class="pi pi-trash scale-50" style="font-size: 2rem" ></i></Button>-->
+                            <!--                                </template>-->
+                            <!--                            </Column>-->
+                            <Column field="date" header="Date"></Column>
+                            <Column field="weeknumber" header="Week Number"></Column>
+                            <Column field="status" header="status">
+                                <template #body="slotProps">
+                                    <Badge :value="slotProps.data.status"
+                                           :severity="statusSeverity(slotProps.data.status)"/>
+                                </template>
+                            </Column>
+                            <Column field="inspector" header="Inspector"></Column>
+                            <Column field="recycle_plant_company" header="Recycle Plant"></Column>
+                            <Column field="glass_factory_company" header="Glass Factory"></Column>
+                            <Column field="country" header="Country"></Column>
+                            <Column field="testtype" header="Test type"></Column>
+                            <Column field="cullettype" header="Cullet type"></Column>
+                            <Column field="quantity" header="Quantity"></Column>
+                            <!--                        <Column field="result" header="Result" >-->
+                            <!--                            <template #body="slotProps">-->
+                            <!--                                <Badge :value="slotProps.data.status" :severity="resultSeverity(slotProps.data)" />-->
+                            <!--                            </template>-->
+                            <!--                        </Column>-->
+                            <Column header="Results">
+                                <template #body="slotProps">
+                                    <secondary-button severity="success">View</secondary-button>
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </template>
+                    <template v-else>
+                        <p>Loading inspections...</p>
+                    </template>
                 </div>
             </div>
         </div>

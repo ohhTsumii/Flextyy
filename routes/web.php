@@ -10,7 +10,8 @@ use App\Http\Controllers\DashboardController;
 Route::get('/api/dashboard', [\App\Http\Controllers\DashboardController::class, 'getInspections']);
 Route::get('/glass-factories', [\App\Http\Controllers\DashboardController::class, 'getAllGlassFactory']);
 Route::get('/recycle-plants', [\App\Http\Controllers\DashboardController::class, 'getAllRecyclePlant']);
-
+Route::post('/getid', [\App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/gettesttype', [\App\Http\Controllers\DashboardController::class, 'getAllTestType']);
 // add inspections
 Route::post('/initialinspection', [\App\Http\Controllers\InspectionController::class, 'store']);
 Route::post('/editinspection', [\App\Http\Controllers\InspectionController::class, 'update']);
@@ -34,9 +35,25 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/general', function () {
-        return Inertia::render('General');
-    })->name('general');
+    Route::get('/testtype', function () {
+        return Inertia::render('Testtype');
+    })->name('testtype');
+
+    Route::get('/cullettype', function () {
+        return Inertia::render('Cullettype');
+    })->name('cullettype');
+
+    Route::get('/inspector', function () {
+        return Inertia::render('Inspector');
+    })->name('inspector');
+
+    Route::get('/recycleplant', function () {
+        return Inertia::render('Recycleplant');
+    })->name('recycleplant');
+
+    Route::get('/glassfactory', function () {
+        return Inertia::render('Glassfactory');
+    })->name('glassfactory');
 
     Route::get('/input', function () {
         return Inertia::render('Input');
@@ -45,6 +62,7 @@ Route::middleware([
     Route::get('/output', function () {
         return Inertia::render('Output');
     })->name('output');
-
-    Route::get('/inputresult', [DashboardController::class, 'index'])->name('inputresult');
+    Route::get('/inputresult', function () {
+        return Inertia::render('Inputresult');
+    })->name('inputresult');
 });

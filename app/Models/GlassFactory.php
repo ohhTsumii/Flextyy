@@ -10,4 +10,10 @@ class GlassFactory extends Model
     use HasFactory;
 
     protected $table = 'glass_factories';
+
+    protected $fillable = [
+        'company',
+        'city',
+        'country',
+    ];
 }

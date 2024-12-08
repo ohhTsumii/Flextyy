@@ -10,4 +10,11 @@ class RecyclePlant extends Model
     use HasFactory;
 
     protected $table = 'recycle_plants';
+
+    protected $fillable = [
+        'company',
+        'city',
+        'country',
+    ];
+
 }

@@ -52,7 +52,8 @@ const logout = () => {
                                 <!-- General Menu with Submenu -->
                                 <div class="relative group items-center h-[100%]">
                                     <!-- Main Menu Item -->
-                                        <NavLink :href="route('general')" :active="route().current('general')"
+                                        <NavLink
+                                            :active="route().current('testtype') || route().current('cullettype') || route().current('inspector') || route().current('recycleplant') || route().current('glassfactory')"
                                                  class="mt-5 inline-block">
                                             General
                                         </NavLink>
@@ -61,11 +62,11 @@ const logout = () => {
                                         class="absolute left-0 hidden group-hover:block bg-white shadow-lg mt-2 rounded-lg z-50 transition-opacity duration-200 ease-in-out"
                                     >
                                         <ul class="py-2">
-                                            <li><a :href="route('inputresult')" class="w-[200px] block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Test Type</a></li>
-                                            <li><a href="/general/sub2" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Cullet type</a></li>
-                                            <li><a href="/general/sub1" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Inspector</a></li>
-                                            <li><a href="/general/sub2" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Recycle Plant</a></li>
-                                            <li><a href="/general/sub2" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Glass Factory (with specification)</a></li>
+                                            <li><NavLink :href="route('testtype')" class="w-[200px] block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Test Type</NavLink></li>
+                                            <li><NavLink :href="route('cullettype')" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Cullet type</NavLink></li>
+                                            <li><NavLink :href="route('inspector')" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Inspector</NavLink></li>
+                                            <li><NavLink :href="route('recycleplant')" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Recycle Plant</NavLink></li>
+                                            <li><NavLink :href="route('glassfactory')" class="block px-4 py-2 hover:bg-gray-200 hover:border-[#55b8d7]">Glass Factory</NavLink></li>
 
                                         </ul>
                                     </div>
@@ -83,7 +84,7 @@ const logout = () => {
                                         class="absolute left-0 hidden group-hover:block bg-white shadow-lg mt-2 rounded-lg z-50 transition-opacity duration-200 ease-in-out"
                                     >
                                         <ul class="py-2">
-                                            <li><a href="/input" class="w-[200px] block px-4 py-2 hover:bg-gray-200">Add inspection</a></li>
+                                            <li><NavLink href="/input" class="w-[200px] block px-4 py-2 hover:bg-gray-200">Add inspection</NavLink></li>
 <!--                                            <li><a href="/input/sub2" class="block px-4 py-2 hover:bg-gray-200">Submenu 2</a></li>-->
                                         </ul>
                                     </div>

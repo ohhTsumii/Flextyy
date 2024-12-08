@@ -6,6 +6,7 @@ use App\Http\Requests\DeleteInspectionRequest;
 use App\Http\Requests\InitialInspectionRequest;
 use App\Http\Requests\InspectionResultsRequest;
 use App\Models\Inspection;
+use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -73,15 +74,22 @@ class InspectionController extends Controller
     {
         $validatedData = $request->validated();
 
+        $result = Result::createResult($validatedData);
 
-
-
-        return response()->json([
-            'success' => true,
-            'data' => $validatedData,
-            'message' => 'Post successfully created!'
-        ]);
-
+        if($result) {
+            Inspection::updateStatus($validatedData['id']);
+            return response()->json([
+                'success' => true,
+                'data' => $result,
+                'message' => 'Results added!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'data' => false,
+                'message' => 'Something went wrong.'
+            ]);
+        }
 
 
 //        $filePath = base_path('test.xlsm');

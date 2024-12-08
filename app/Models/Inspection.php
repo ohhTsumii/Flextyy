@@ -16,7 +16,7 @@ class Inspection extends Model
     // Define the fillable properties for mass assignment
     protected $fillable = [
         'weeknumber', 'country', 'recycleplant', 'inspector',
-        'glassfactory', 'testtype', 'cullettype', 'quantity','date'
+        'glassfactory', 'testtype', 'cullettype', 'quantity','date','status'
     ];
 
     /**
@@ -84,6 +84,19 @@ class Inspection extends Model
 
         if ($inspection) {
             return $inspection->delete();
+        }
+
+        return false; // Return false if the inspection was not found
+    }
+    public static function updateStatus(int $id): ?bool
+    {
+        // Find the inspection by ID and delete
+        $inspection = self::find($id);
+
+        if ($inspection) {
+            return $inspection->update([
+                'status' => 'closed',
+            ]);
         }
 
         return false; // Return false if the inspection was not found

@@ -45,17 +45,17 @@
                             <h1 class="text-xl font-medium text-gray-900 py-2 mt-6">Sample Size(kg):</h1>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Contamination</input-label>
-                                <TextInput v-model="formData.contamination" type="number"</TextInput>
+                                <TextInput v-model="formData.contamination" type="number"></TextInput>
                             </div>
                             <div class="pt-2 pb-2 flex flex-row items-center">
                                 <input-label class="w-[30%]">Humidity %</input-label>
                                 <TextInput v-model="formData.humidity" type="number"></TextInput>
                             </div>
                             <Divider/>
-<!--                            <div class="pt-2 pb-2 flex flex-row items-center">-->
-<!--                                <input-label class="w-[30%]">Control done by:</input-label>-->
-<!--                                <TextInput v-model="formData.recyclePlant" type="text"></TextInput>-->
-<!--                            </div>-->
+                            <!--                            <div class="pt-2 pb-2 flex flex-row items-center">-->
+                            <!--                                <input-label class="w-[30%]">Control done by:</input-label>-->
+                            <!--                                <TextInput v-model="formData.recyclePlant" type="text"></TextInput>-->
+                            <!--                            </div>-->
                         </div>
 
                         <div>
@@ -176,7 +176,7 @@
                             <primary-button type="submit" class="pt-2 pb-2 w-fit bg-green-600">Submit
                             </primary-button>
                         </div>
-                        <Toast />
+                        <Toast/>
                     </form>
                 </div>
             </div>
@@ -210,9 +210,26 @@ defineProps({
     },
 });
 
+onMounted(async () => {
+    try {
+        const fullUrl = window.location.href; // Grabs the full current URL
+        const response = await axios.post('/getid', {
+            url: fullUrl,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        });
+
+        console.log('Received ID:', response.data.id);
+        formData.value.id = response.data.id
+    } catch (error) {
+        console.error('Error fetching ID:', error.message);
+    }
+});
+
 // Reactive state for form data
 const formData = ref({
-    id:"",
+    id: "",
     // General Information
     dateTest: "",
     typeTest: "",
@@ -223,7 +240,7 @@ const formData = ref({
     contamination: 0,
     humidity: 0,
     // Inorganic Contamination
-    ceramics_pc: 0,
+    ceramic_pc: 0,
     stones_pc: 0,
     porcelain_pc: 0,
     ceramic_gr: 0,
@@ -257,24 +274,36 @@ const responseMessage = ref('');
 const toast = useToast();
 
 const submitForm = async () => {
-    console.log('Form submitted:', formData.value);
+    // console.log('Form submitted:', formData.value)
     try {
         // window.location.href = '/exceltest';
-
         // Send a POST request to the Laravel backend
         const response = await axios.post('/exceltest', formData.value, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Include CSRF token
             },
         });
+        if (response.data.success == true) {
+            // Show success toast message
+            toast.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: response.data.message,
+                life: 3000, // The toast will disappear after 3 seconds
+            });
+// Redirect immediately
+//             window.location.href = '/dashboard';
 
-        // Show success toast message
-        toast.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: "Inspection added succesfully",
-            life: 3000, // The toast will disappear after 3 seconds
-        });
+        }
+        else {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: response.data.message,
+                life: 3000, // The toast will disappear after 3 seconds
+            });
+        }
+
 
         // Handle the response
         responseMessage.value = response.data.message;
@@ -297,11 +326,6 @@ const submitForm = async () => {
         responseMessage.value = errorMessage;
     }
 };
-</script>
-
-<script>
-// console.log(props.id)
-
 </script>
 
 <style>

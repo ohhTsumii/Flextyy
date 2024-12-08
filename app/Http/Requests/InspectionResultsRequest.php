@@ -22,6 +22,7 @@ class InspectionResultsRequest extends FormRequest
         return [
             // General Information
             'dateTest' => 'nullable|date',
+            'id' => '',
             'typeTest' => 'nullable|string|max:255',
             'plantSupplier' => 'nullable|string|max:255',
             'lotSize' => 'nullable|numeric|min:0',
